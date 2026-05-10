@@ -10,7 +10,7 @@ def test_student_cannot_access_admin(client, auth):
 def test_admin_can_access_admin(client, auth):
     auth.login('admin', 'admin123')
     response = client.get('/admin/')
-    assert 'Административная панель' in response.data.decode('utf-8')
+    assert 'Панель управления' in response.data.decode('utf-8')
 
 def test_admin_can_manage_users(client, auth):
     auth.login('admin', 'admin123')

@@ -81,12 +81,16 @@
 
 {% block scripts %}
 <script>
+
+    <span id="test-data" 
+      data-total="{{ questions|length }}" 
+      hidden></span>
     // Подсчёт отвеченных вопросов и обновление прогресс-бара
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('test-form');
         const progressBar = document.getElementById('test-progress');
         const answeredCount = document.getElementById('answered-count');
-        const totalQuestions = {{ questions|length }};
+        const totalQuestions = parseInt(document.getElementById('test-data').dataset.total);
         
         function updateProgress() {
             let answered = 0;
