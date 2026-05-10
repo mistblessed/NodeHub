@@ -9,22 +9,29 @@
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2 rounded-3 py-2 px-3
                               {% if request.endpoint == 'admin.dashboard' %}active{% endif %}"
-                       href="{{ url_for('admin.dashboard') }}">
+                        href="{{ url_for('admin.dashboard') }}">
                         <i class="bi bi-speedometer2 fs-5"></i> Панель
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2 rounded-3 py-2 px-3
                               {% if 'admin.list_users' in request.endpoint or 'admin.change_role' in request.endpoint or 'admin.delete_user' in request.endpoint %}active{% endif %}"
-                       href="{{ url_for('admin.list_users') }}">
+                        href="{{ url_for('admin.list_users') }}">
                         <i class="bi bi-people fs-5"></i> Пользователи
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2 rounded-3 py-2 px-3
                               {% if 'admin.list_modules' in request.endpoint or 'admin.create_module' in request.endpoint or 'admin.edit_module' in request.endpoint or 'admin.list_lessons' in request.endpoint or 'admin.list_tests' in request.endpoint %}active{% endif %}"
-                       href="{{ url_for('admin.list_modules') }}">
+                        href="{{ url_for('admin.list_modules') }}">
                         <i class="bi bi-collection-play fs-5"></i> Модули / Уроки / Тесты
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 rounded-3 py-2 px-3
+              {% if 'admin.feedback' in request.endpoint %}active{% endif %}"
+                        href="{{ url_for('admin.feedback_list') }}">
+                        <i class="bi bi-chat-dots fs-5"></i> Обратная связь
                     </a>
                 </li>
             </ul>

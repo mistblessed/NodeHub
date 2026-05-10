@@ -15,21 +15,29 @@
             <p><a href="https://t.me/emk" class="text-decoration-none">@emk</a></p>
         </div>
         
+        <p class="text-muted mb-4">Остались вопросы? Заполните форму ниже.</p>
         <div class="card border-0 shadow-sm rounded-4 p-4">
-            <h4 class="fw-bold mb-3">Напишите нам</h4>
-            <form method="POST" action="#">
+            <form method="POST">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="mb-3">
-                    <label class="form-label">Ваше имя</label>
-                    <input type="text" class="form-control rounded-pill" required>
+                    <label class="form-label">Имя</label>
+                    <input type="text" name="name" class="form-control" 
+                           value="{{ current_user.username if current_user.is_authenticated else '' }}" 
+                           placeholder="Ваше имя">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control rounded-pill" required>
+                    <input type="email" name="email" class="form-control" 
+                           value="{{ current_user.email if current_user.is_authenticated else '' }}" 
+                           placeholder="your@email.com">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Тема</label>
+                    <input type="text" name="subject" class="form-control" required>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Сообщение</label>
-                    <textarea class="form-control rounded-3" rows="4" required></textarea>
+                    <textarea name="message" class="form-control" rows="5" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-success rounded-pill px-4">Отправить</button>
             </form>

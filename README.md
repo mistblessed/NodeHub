@@ -13,5 +13,5 @@
 
 1. Клонировать репозиторий:
    ```bash
-   git clone <repo-url>
+   git clone https://github.com/mistblessed/NodeHub
    cd NodeHub

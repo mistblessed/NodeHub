@@ -8,6 +8,7 @@ from app.admin.services import (
     get_lessons_for_module, get_lesson_by_id, create_lesson, update_lesson, delete_lesson,
     get_tests_for_module, get_test_by_id, create_test, update_test, delete_test,
     get_questions_for_test, delete_user, create_question, update_question, delete_question, get_question_by_id)
+from app.feedback.services import get_all_feedback, get_feedback_by_id, update_feedback_status, delete_feedback
 
 
 admin_bp = Blueprint('admin', __name__)
@@ -252,6 +253,38 @@ def delete_question_view(test_id, question_id):
     delete_question(question_id)
     flash('Вопрос удалён.', 'success')
     return redirect(url_for('admin.edit_test', test_id=test_id))
+
+# ------------------- ОБРАТНАЯ СВЯЗЬ -------------------
+@admin_bp.route('/feedback')
+@admin_required
+def feedback_list():
+    status_filter = request.args.get('status')
+    feedbacks = get_all_feedback(status_filter)
+    return render_template('admin/feedback_list.html', feedbacks=feedbacks, current_filter=status_filter)
+
+@admin_bp.route('/feedback/<int:feedback_id>')
+@admin_required
+def feedback_detail(feedback_id):
+    fb = get_feedback_by_id(feedback_id)
+    if not fb:
+        abort(404)
+    return render_template('admin/feedback_detail.html', feedback=fb)
+
+@admin_bp.route('/feedback/<int:feedback_id>/status', methods=['POST'])
+@admin_required
+def feedback_change_status(feedback_id):
+    new_status = request.form.get('status')
+    if new_status in ('new', 'read', 'replied'):
+        update_feedback_status(feedback_id, new_status)
+        flash('Статус обновлён.', 'success')
+    return redirect(url_for('admin.feedback_detail', feedback_id=feedback_id))
+
+@admin_bp.route('/feedback/<int:feedback_id>/delete', methods=['POST'])
+@admin_required
+def feedback_delete(feedback_id):
+    delete_feedback(feedback_id)
+    flash('Обращение удалено.', 'success')
+    return redirect(url_for('admin.feedback_list'))
 
 # ------------------- ТЕСТЫ (внутри модуля) -------------------
 @admin_bp.route('/modules/<int:module_id>/tests')

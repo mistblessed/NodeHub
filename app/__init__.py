@@ -1,9 +1,11 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, request, url_for
 from app.config import Config
 from flask_login import LoginManager
 from app.models.user import User
 from app.db.connection import fetch_one
 from flask_wtf.csrf import CSRFProtect
+from app.feedback.services import submit_feedback
+from flask_login import current_user
 
 
 login_manager = LoginManager()
@@ -50,8 +52,36 @@ def create_app():
     def about():
         return render_template('about.html')
 
-    @app.route('/contacts')
+    @app.route('/contacts', methods=['GET', 'POST'])
     def contacts():
+        if request.method == 'POST':
+            if current_user.is_authenticated:
+                user_id = current_user.id
+                name = current_user.username
+                email = current_user.email
+            else:
+                user_id = None
+                name = request.form.get('name', '').strip()
+                email = request.form.get('email', '').strip()
+            subject = request.form.get('subject', '').strip()
+            message = request.form.get('message', '').strip()
+            errors = []
+            if not name:
+                errors.append('Имя обязательно')
+            if not email:
+                errors.append('Email обязателен')
+            if not subject:
+                errors.append('Тема обязательна')
+            if not message:
+                errors.append('Сообщение обязательно')
+            if errors:
+                for err in errors:
+                    flash(err, 'danger')
+            else:
+                submit_feedback(user_id, name, email, subject, message)
+                flash('Сообщение отправлено! Мы свяжемся с вами.', 'success')
+                return redirect(url_for('contacts'))
+        # GET — покажем форму
         return render_template('contacts.html')
 
     return app
