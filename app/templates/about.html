@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <h1 class="fw-bold mb-4">О проекте NodeHub</h1>
+        
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-5">
+            <h4 class="fw-bold mb-3"><i class="bi bi-bullseye me-2 text-success"></i>Цель проекта</h4>
+            <p class="lead">NodeHub — образовательная платформа для изучения серверной разработки на Node.js. Проект создан в рамках дипломной работы и предоставляет структурированный курс с теоретическими уроками, практическими тестами и системой отслеживания прогресса.</p>
+        </div>
+        
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+                    <i class="bi bi-code-slash fs-2 text-primary mb-3"></i>
+                    <h5>Современный стек</h5>
+                    <p class="text-muted">Python, Flask, PostgreSQL, Bootstrap 5. Полноценное клиент-серверное приложение.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+                    <i class="bi bi-book fs-2 text-success mb-3"></i>
+                    <h5>3 модуля, 12 уроков</h5>
+                    <p class="text-muted">От основ Node.js до создания HTTP-серверов и работы с Express.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+                    <i class="bi bi-patch-question fs-2 text-warning mb-3"></i>
+                    <h5>Интерактивные тесты</h5>
+                    <p class="text-muted">Автоматическая проверка ответов и мгновенная обратная связь.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100 p-4">
+                    <i class="bi bi-person-check fs-2 text-info mb-3"></i>
+                    <h5>Личный прогресс</h5>
+                    <p class="text-muted">Отслеживайте пройденные уроки и результаты тестов в профиле.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center">
+            <p class="text-muted mb-4">Дипломный проект студента Екатеринбургского монтажного колледжа</p>
+            <a href="{{ url_for('courses.modules_list') }}" class="btn btn-success rounded-pill px-4">Перейти к курсу</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

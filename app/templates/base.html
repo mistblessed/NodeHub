@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,54 +11,65 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="wrapper">
 
-    <!-- Шапка -->
-    <div class="container mt-3">
-        <nav class="navbar navbar-expand-lg navbar-dark navbar-custom rounded-3 shadow-sm px-3">
-            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">NodeHub</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('courses.modules_list') }}">Курс</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    {% if current_user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('profile.index') }}"><i class="bi bi-person"></i> Профиль</a></li>
+        <!-- Шапка -->
+        <div class="container mt-3">
+            <nav class="navbar navbar-expand-lg navbar-dark navbar-custom rounded-3 shadow-sm px-3">
+                <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">NodeHub</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('courses.modules_list') }}">Курс</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('about') }}">О проекте</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('contacts') }}">Контакты</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto">
+                        {% if current_user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('profile.index') }}"><i
+                                    class="bi bi-person"></i> Профиль</a></li>
                         {% if current_user.role == 'admin' %}
-                            <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-gear"></i> Админ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.dashboard') }}"><i
+                                    class="bi bi-gear"></i> Админ</a></li>
                         {% endif %}
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right"></i> Выйти</a></li>
-                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}"><i
+                                    class="bi bi-box-arrow-right"></i> Выйти</a></li>
+                        {% else %}
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Вход</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Регистрация</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </nav>
-    </div>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Регистрация</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>
+        </div>
 
-    <main class="container mt-4 flex-grow-1">
-        <!-- flash-сообщения -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        <main class="container mt-4 flex-grow-1">
+            <!-- flash-сообщения -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>
-                {% endfor %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
             {% endif %}
-        {% endwith %}
+            {% endwith %}
 
-        {% block content %}{% endblock %}
-    </main>
+            {% block content %}{% endblock %}
+        </main>
 
     </div>
 
@@ -70,9 +82,10 @@
                     <p class="small">Образовательная платформа по изучению Node.js. Дипломный проект.</p>
                 </div>
                 <div class="col-md-4 mb-2 mb-md-0 text-center">
-                    <a href="{{ url_for('courses.modules_list') }}" class="text-light text-decoration-none me-3">Курс</a>
-                    <a href="#" class="text-light text-decoration-none me-3">О проекте</a>
-                    <a href="#" class="text-light text-decoration-none">Контакты</a>
+                    <a href="{{ url_for('courses.modules_list') }}"
+                        class="text-light text-decoration-none me-3">Курс</a>
+                    <a href="{{ url_for('about') }}" class="text-light text-decoration-none me-3">О проекте</a>
+                    <a href="{{ url_for('contacts') }}" class="text-light text-decoration-none">Контакты</a>
                 </div>
                 <div class="col-md-4 text-md-end">
                     <a href="#" class="text-light me-2"><i class="bi bi-github fs-5"></i></a>
@@ -92,4 +105,5 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
 </body>
+
 </html>
