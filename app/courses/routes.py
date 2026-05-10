@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, abort, redirect, url_for
+from flask import Blueprint, render_template, abort, redirect, url_for, flash
 from flask_login import login_required, current_user
-from app.courses.services import get_all_modules, get_lesson_by_id, get_lessons_by_module, get_tests_by_module
+from app.courses.services import get_all_modules, get_lesson_by_id, get_lessons_by_module, get_tests_by_module, complete_lesson
 from app.quizzes.services import get_test_by_id
 from app.db.connection import fetch_one
 
@@ -26,14 +26,28 @@ def module_detail(module_id):
                            lessons=lessons,
                            tests=tests)  
 
+@courses_bp.route('/lessons/<int:lesson_id>/complete', methods=['POST'])
+@login_required
+def complete_lesson_view(lesson_id):
+    complete_lesson(current_user.id, lesson_id)
+    flash('Урок отмечен как пройденный!', 'success')
+    # Перенаправим обратно на страницу урока
+    return redirect(url_for('courses.lesson_detail', lesson_id=lesson_id))
+
+
 @courses_bp.route('/lessons/<int:lesson_id>')
 @login_required
 def lesson_detail(lesson_id):
-    """Страница урока с теоретическим материалом (требует авторизации)."""
     lesson = get_lesson_by_id(lesson_id)
     if not lesson:
         abort(404)
-    # Получаем модуль для хлебных крошек
     modules = get_all_modules()
     module = next((m for m in modules if m.id == lesson.module_id), None)
-    return render_template('courses/lesson.html', lesson=lesson, module=module)
+    # Проверим, завершён ли урок
+    from app.db.connection import fetch_one
+    progress = fetch_one(
+        "SELECT status FROM user_progress WHERE user_id = %s AND lesson_id = %s",
+        (current_user.id, lesson_id)
+    )
+    completed = progress and progress['status'] == 'completed'
+    return render_template('courses/lesson.html', lesson=lesson, module=module, completed=completed)

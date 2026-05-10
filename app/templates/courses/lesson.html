@@ -15,5 +15,15 @@
 <div class="lesson-content mt-4">
     {# Содержимое урока: используем фильтр safe, но с осторожностью, т.к. это админский контент #}
     {{ lesson.theoretical_content|safe }}
+    <div class="mt-5 p-3 border rounded bg-light">
+    {% if not completed %}
+        <form method="POST" action="{{ url_for('courses.complete_lesson_view', lesson_id=lesson.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="btn btn-success">Отметить как пройденный</button>
+        </form>
+    {% else %}
+        <p class="text-success mb-0">✔ Урок пройден</p>
+    {% endif %}
+</div>
 </div>
 {% endblock %}
