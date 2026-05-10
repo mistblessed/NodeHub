@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Тесты модуля «{{ module.title }}»</h1>
+<a href="{{ url_for('admin.create_test_view', module_id=module.id) }}" class="btn btn-success mb-3">Добавить тест</a>
+<table class="table table-bordered">
+    <thead><tr><th>ID</th><th>Название</th><th>Действия</th></tr></thead>
+    <tbody>
+        {% for test in tests %}
+        <tr>
+            <td>{{ test.id }}</td>
+            <td>{{ test.title }}</td>
+            <td>
+                <a href="{{ url_for('admin.edit_test', test_id=test.id) }}" class="btn btn-sm btn-primary">Ред.</a>
+                <form method="POST" action="{{ url_for('admin.delete_test_view', test_id=test.id) }}" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Удалить тест и все вопросы?')">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('admin.list_modules') }}" class="btn btn-secondary">Назад к модулям</a>
+{% endblock %}

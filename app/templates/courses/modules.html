@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Структура курса</h1>
+<div class="list-group mt-4">
+    {% for module in modules %}
+    <a href="{{ url_for('courses.module_detail', module_id=module.id) }}" 
+       class="list-group-item list-group-item-action">
+        <h5 class="mb-1">{{ module.title }}</h5>
+        <p class="mb-1 text-muted">{{ module.description or '' }}</p>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

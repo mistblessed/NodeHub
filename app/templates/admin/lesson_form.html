@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{% if lesson %}Редактирование урока{% else %}Новый урок{% endif %} (модуль «{{ module.title }}»)</h1>
+<form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="mb-3"><label class="form-label">Название</label><input type="text" name="title" class="form-control" value="{{ lesson.title if lesson else '' }}" required></div>
+    <div class="mb-3"><label class="form-label">Содержание (HTML / Markdown)</label><textarea name="content" class="form-control" rows="10">{{ lesson.theoretical_content if lesson else '' }}</textarea></div>
+    <div class="mb-3"><label class="form-label">Порядок</label><input type="number" name="order" class="form-control" value="{{ lesson.order if lesson else 0 }}"></div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{{ url_for('admin.list_lessons', module_id=module.id) }}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}

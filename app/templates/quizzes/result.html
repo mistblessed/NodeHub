@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('courses.modules_list') }}">Курс</a></li>
+        <li class="breadcrumb-item active">{{ test.title }} - Результат</li>
+    </ol>
+</nav>
+
+<h1>{{ test.title }} — Результат</h1>
+<div class="alert alert-info">
+    Правильных ответов: {{ correct }} из {{ total }} ({{ percent }}%)
+</div>
+<a href="{{ url_for('courses.modules_list') }}" class="btn btn-primary">Вернуться к курсу</a>
+{% endblock %}

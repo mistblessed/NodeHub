@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Личный кабинет</h1>
+<p class="lead">Привет, {{ current_user.username }}!</p>
+
+<!-- Сводка по модулям -->
+<h2 class="mt-4">Прогресс по модулям</h2>
+{% if module_summary %}
+<table class="table table-bordered mt-3">
+    <thead class="table-light">
+        <tr>
+            <th>Модуль</th>
+            <th>Уроки</th>
+            <th>Тест</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mod in module_summary %}
+        <tr>
+            <td>{{ mod.module_title }}</td>
+            <td>{{ mod.completed_lessons }} / {{ mod.total_lessons }} ({{ mod.lesson_percent }}%)</td>
+            <td>
+                {% if mod.test_completed %}
+                <span class="text-success">Пройден ({{ mod.test_score }}%)</span>
+                {% else %}
+                <span class="text-muted">Не пройден</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>У вас пока нет прогресса. Начните обучение!</p>
+{% endif %}
+
+<!-- История действий -->
+<h2 class="mt-5">Последние действия</h2>
+{% if progress_items %}
+<div class="list-group mt-3">
+    {% for item in progress_items %}
+    <div class="list-group-item">
+        <div class="d-flex justify-content-between">
+            <div>
+                {% if item.type == 'lesson' %}
+                <span class="badge bg-info me-2">Урок</span>
+                {% else %}
+                <span class="badge bg-warning me-2">Тест</span>
+                {% endif %}
+                <strong>{{ item.title }}</strong>
+                <small class="text-muted">({{ item.module_title }})</small>
+            </div>
+            <div>
+                {% if item.status == 'completed' %}
+                <span class="text-success">Пройдено</span>
+                {% if item.score is not none %}
+                ({{ item.score }}%)
+                {% endif %}
+                {% else %}
+                <span class="text-muted">{{ item.status }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <small class="text-muted">{{ item.completed_at.strftime('%d.%m.%Y %H:%M') if item.completed_at else '' }}</small>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>История действий пуста.</p>
+{% endif %}
+{% endblock %}

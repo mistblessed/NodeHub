@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Редактирование теста «{{ test.title }}»</h1>
+<p class="text-muted">Модуль: {{ module.title }}</p>
+
+<!-- Форма изменения названия -->
+<form method="POST" class="mb-4">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="input-group">
+        <input type="text" name="title" class="form-control" value="{{ test.title }}" required>
+        <button type="submit" class="btn btn-primary">Сохранить название</button>
+    </div>
+</form>
+
+<h2>Вопросы</h2>
+<a href="{{ url_for('admin.add_question', test_id=test.id) }}" class="btn btn-success mb-3">Добавить вопрос</a>
+{% if questions %}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Текст</th>
+            <th>Тип</th>
+            <th>Действия</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for q in questions %}
+        <tr>
+            <td>{{ q.id }}</td>
+            <td>{{ q.text }}</td>
+            <td>{{ q.question_type }}</td>
+            <td>
+                <a href="{{ url_for('admin.edit_question', test_id=test.id, question_id=q.id) }}" class="btn btn-sm btn-primary">Ред.</a>
+                <form method="POST" action="{{ url_for('admin.delete_question_view', test_id=test.id, question_id=q.id) }}" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Удалить вопрос?')">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Вопросов пока нет.</p>
+{% endif %}
+<a href="{{ url_for('admin.list_tests', module_id=module.id) }}" class="btn btn-secondary">Назад к списку тестов</a>
+{% endblock %}

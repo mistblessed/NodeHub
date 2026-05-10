@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('courses.modules_list') }}">Курс</a></li>
+        <li class="breadcrumb-item active">{{ selected_module.title }}</li>
+    </ol>
+</nav>
+
+<h1>{{ selected_module.title }}</h1>
+<p class="lead">{{ selected_module.description }}</p>
+
+<h2 class="mt-4">Уроки</h2>
+<div class="list-group">
+    {% for lesson in lessons %}
+    <a href="{{ url_for('courses.lesson_detail', lesson_id=lesson.id) }}" 
+       class="list-group-item list-group-item-action">
+        {{ lesson.title }}
+        {% if not current_user.is_authenticated %}
+        <span class="badge bg-secondary">Требуется вход</span>
+        {% endif %}
+    </a>
+    {% else %}
+    <p>В этом модуле пока нет уроков.</p>
+    {% endfor %}
+</div>
+{% if tests %}
+<div class="mt-4">
+    <h3>Тесты по модулю</h3>
+    {% if tests|length == 1 %}
+        <a href="{{ url_for('quizzes.show_test', test_id=tests[0].id) }}" class="btn btn-outline-primary">
+            Пройти тест «{{ tests[0].title }}»
+        </a>
+    {% else %}
+        <div class="list-group">
+            {% for test in tests %}
+                <a href="{{ url_for('quizzes.show_test', test_id=test.id) }}" class="list-group-item list-group-item-action">
+                    {{ test.title }}
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

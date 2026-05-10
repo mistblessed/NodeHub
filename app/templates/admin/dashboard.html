@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Административная панель</h1>
+<div class="list-group mt-4">
+    <a href="{{ url_for('admin.list_users') }}" class="list-group-item list-group-item-action">Пользователи</a>
+    <a href="{{ url_for('admin.list_modules') }}" class="list-group-item list-group-item-action">Модули</a>
+</div>
+{% endblock %}

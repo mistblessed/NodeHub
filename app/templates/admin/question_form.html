@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{% if question %}Редактирование вопроса{% else %}Новый вопрос{% endif %} для теста «{{ test.title }}»</h1>
+<form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="mb-3">
+        <label class="form-label">Текст вопроса</label>
+        <textarea name="text" class="form-control" rows="3" required>{{ form_data['text'] if form_data else (question.text if question else '') }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Тип вопроса</label>
+        <select name="question_type" id="qtype" class="form-select" required>
+            <option value="single_choice" {% if (form_data and form_data.get('question_type') == 'single_choice') or (question and question.question_type == 'single_choice') %}selected{% endif %}>Одиночный выбор (radio)</option>
+            <option value="multiple_choice" {% if (form_data and form_data.get('question_type') == 'multiple_choice') or (question and question.question_type == 'multiple_choice') %}selected{% endif %}>Множественный выбор (checkbox)</option>
+            <option value="text_input" {% if (form_data and form_data.get('question_type') == 'text_input') or (question and question.question_type == 'text_input') %}selected{% endif %}>Текстовый ввод</option>
+        </select>
+    </div>
+    <div class="mb-3" id="options-group">
+        <label class="form-label">Варианты ответов <small class="text-muted">(JSON-массив, например: ["Вариант 1", "Вариант 2"])</small></label>
+        <textarea name="options" class="form-control" rows="3">{{ form_data['options'] if form_data else (question.options | tojson if question and question.options else '') }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Правильный ответ</label>
+        <input type="text" name="correct_answer" class="form-control" value="{{ form_data['correct_answer'] if form_data else (question.correct_answer if question else '') }}" required>
+        <small>Для single_choice — точный вариант, для multiple_choice — JSON-массив выбранных, для text_input — строка.</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{{ url_for('admin.edit_test', test_id=test.id) }}" class="btn btn-secondary">Отмена</a>
+</form>
+
+<script>
+(function() {
+    var select = document.getElementById('qtype');
+    var optGroup = document.getElementById('options-group');
+    function toggleOptions() {
+        if (select.value === 'text_input') {
+            optGroup.style.display = 'none';
+        } else {
+            optGroup.style.display = 'block';
+        }
+    }
+    select.addEventListener('change', toggleOptions);
+    toggleOptions(); // при загрузке
+})();
+</script>
+{% endblock %}

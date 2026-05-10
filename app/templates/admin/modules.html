@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Модули курса</h1>
+<a href="{{ url_for('admin.create_module_view') }}" class="btn btn-success mb-3">Добавить модуль</a>
+<table class="table table-bordered">
+    <thead><tr><th>ID</th><th>Название</th><th>Порядок</th><th>Действия</th></tr></thead>
+    <tbody>
+        {% for module in modules %}
+        <tr>
+            <td>{{ module.id }}</td>
+            <td>{{ module.title }}</td>
+            <td>{{ module.order }}</td>
+            <td>
+                <a href="{{ url_for('admin.list_lessons', module_id=module.id) }}" class="btn btn-sm btn-info">Уроки</a>
+                <a href="{{ url_for('admin.list_tests', module_id=module.id) }}" class="btn btn-sm btn-warning">Тесты</a>
+                <a href="{{ url_for('admin.edit_module', module_id=module.id) }}" class="btn btn-sm btn-primary">Ред.</a>
+                <form method="POST" action="{{ url_for('admin.delete_module_view', module_id=module.id) }}" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Удалить модуль?')">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

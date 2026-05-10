@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{% if module %}Редактирование модуля{% else %}Новый модуль{% endif %}</h1>
+<form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="mb-3"><label class="form-label">Название</label><input type="text" name="title" class="form-control" value="{{ module.title if module else '' }}" required></div>
+    <div class="mb-3"><label class="form-label">Описание</label><textarea name="description" class="form-control">{{ module.description if module else '' }}</textarea></div>
+    <div class="mb-3"><label class="form-label">Порядок</label><input type="number" name="order" class="form-control" value="{{ module.order if module else 0 }}"></div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="{{ url_for('admin.list_modules') }}" class="btn btn-secondary">Отмена</a>
+</form>
+{% endblock %}
