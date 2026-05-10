@@ -1,10 +1,104 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="text-center mt-5">
-    <h1>Добро пожаловать в NodeHub</h1>
-    <p class="lead">Образовательная платформа для изучения Node.js</p>
+<!-- Hero-карусель -->
+<div id="heroCarousel" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner rounded-4 overflow-hidden shadow-lg">
+        <div class="carousel-item active" style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1470');">
+            <div class="carousel-caption">
+                <h2>Освойте Node.js</h2>
+                <p>Создавайте быстрые серверные приложения на JavaScript</p>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-success btn-lg px-4 mt-2">Начать бесплатно</a>
+            </div>
+        </div>
+        <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1470');">
+            <div class="carousel-caption">
+                <h2>Интерактивные тесты</h2>
+                <p>Закрепляйте материал и следите за прогрессом</p>
+                <a href="{{ url_for('courses.modules_list') }}" class="btn btn-success btn-lg px-4 mt-2">Перейти к курсу</a>
+            </div>
+        </div>
+        <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1470');">
+            <div class="carousel-caption">
+                <h2>Следите за успехами</h2>
+                <p>Личный кабинет с историей обучения</p>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('profile.index') }}" class="btn btn-success btn-lg px-4 mt-2">Мой профиль</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-success btn-lg px-4 mt-2">Войти</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<!-- Преимущества -->
+<div class="container text-center mb-5">
+    <h2 class="fw-bold mb-4">Почему NodeHub?</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-icon mx-auto mb-3"><i class="bi bi-journal-code"></i></div>
+            <h5>Структурированный материал</h5>
+            <p class="text-muted">Теория от основ до продвинутых тем с живыми примерами кода</p>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-icon mx-auto mb-3"><i class="bi bi-check2-circle"></i></div>
+            <h5>Проверочные тесты</h5>
+            <p class="text-muted">Автоматическая проверка знаний и мгновенная обратная связь</p>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-icon mx-auto mb-3"><i class="bi bi-graph-up"></i></div>
+            <h5>Прогресс обучения</h5>
+            <p class="text-muted">Отслеживайте завершённые уроки и результаты тестов</p>
+        </div>
+    </div>
+</div>
+
+<!-- Модули курса -->
+<div class="bg-light py-5 mb-5">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-4">Чему вы научитесь</h2>
+        <div class="row g-4">
+            {% set modules = [
+                {'title': 'Основы Node.js', 'text': 'Установка, REPL, глобальные объекты, первое приложение.', 'icon': 'bi-cpu'},
+                {'title': 'Модули и NPM', 'text': 'CommonJS, создание пакетов, управление зависимостями.', 'icon': 'bi-box-seam'},
+                {'title': 'HTTP и Express', 'text': 'Веб-серверы, маршрутизация и фреймворк Express.', 'icon': 'bi-hdd-rack'}
+            ] %}
+            {% for m in modules %}
+            <div class="col-md-4">
+                <div class="card module-card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi {{ m.icon }} mb-3 d-block"></i>
+                        <h5 class="card-title">{{ m.title }}</h5>
+                        <p class="card-text text-muted">{{ m.text }}</p>
+                        <a href="{{ url_for('courses.modules_list') }}" class="btn btn-outline-success btn-sm rounded-pill">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Призыв к действию -->
+<div class="container cta-section p-5 text-center mb-5">
+    <h2 class="fw-bold">Готовы начать?</h2>
+    <p class="lead mb-4">Присоединяйтесь к сообществу изучающих Node.js</p>
     {% if not current_user.is_authenticated %}
-        <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg">Начать обучение</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg">Зарегистрироваться сейчас</a>
+    {% else %}
+        <a href="{{ url_for('courses.modules_list') }}" class="btn btn-light btn-lg">Продолжить обучение</a>
     {% endif %}
 </div>
+
 {% endblock %}
