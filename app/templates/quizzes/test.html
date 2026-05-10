@@ -1,51 +1,113 @@
 {% extends "base.html" %}
 {% block content %}
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('courses.modules_list') }}">Курс</a></li>
-        <li class="breadcrumb-item active">{{ test.title }}</li>
-    </ol>
-</nav>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Главная</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('courses.modules_list') }}">Курс</a></li>
+                <li class="breadcrumb-item active">{{ test.title }}</li>
+            </ol>
+        </nav>
 
-<h1>{{ test.title }}</h1>
-<p class="lead">Проверьте свои знания по модулю.</p>
-
-<form method="POST" action="{{ url_for('quizzes.submit_test', test_id=test.id) }}">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    {% for question in questions %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h5 class="card-title">Вопрос {{ loop.index }}</h5>
-            <p class="card-text">{{ question.text }}</p>
-
-            {% if question.question_type == 'single_choice' %}
-                {% for option in question.options %}
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="q_{{ question.id }}" 
-                           id="q_{{ question.id }}_{{ loop.index }}" value="{{ option }}">
-                    <label class="form-check-label" for="q_{{ question.id }}_{{ loop.index }}">
-                        {{ option }}
-                    </label>
-                </div>
-                {% endfor %}
-            {% elif question.question_type == 'multiple_choice' %}
-                {% for option in question.options %}
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="q_{{ question.id }}" 
-                           id="q_{{ question.id }}_{{ loop.index }}" value="{{ option }}">
-                    <label class="form-check-label" for="q_{{ question.id }}_{{ loop.index }}">
-                        {{ option }}
-                    </label>
-                </div>
-                {% endfor %}
-            {% elif question.question_type == 'text_input' %}
-                <input type="text" class="form-control" name="q_{{ question.id }}">
-            {% endif %}
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <h2 class="fw-bold mb-2">{{ test.title }}</h2>
+            <p class="text-muted mb-3">Проверьте свои знания по модулю. Всего вопросов: {{ questions|length }}</p>
+            
+            <!-- Прогресс-бар -->
+            <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 0%;" id="test-progress"></div>
+            </div>
+            <small class="text-muted mt-1 d-block text-end" id="answered-count">Отвечено: 0 из {{ questions|length }}</small>
         </div>
-    </div>
-    {% endfor %}
 
-    <button type="submit" class="btn btn-primary">Отправить ответы</button>
-</form>
+        <form method="POST" action="{{ url_for('quizzes.submit_test', test_id=test.id) }}" id="test-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            {% for question in questions %}
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 question-card" id="question-{{ loop.index }}">
+                <div class="d-flex align-items-start mb-3">
+                    <span class="badge bg-primary rounded-pill me-3 fs-6">{{ loop.index }}</span>
+                    <div>
+                        <h5 class="fw-bold mb-2">{{ question.text }}</h5>
+                        <span class="badge bg-light text-dark rounded-pill">
+                            {% if question.question_type == 'single_choice' %}
+                                <i class="bi bi-record-circle me-1"></i> Один ответ
+                            {% elif question.question_type == 'multiple_choice' %}
+                                <i class="bi bi-check2-square me-1"></i> Несколько ответов
+                            {% elif question.question_type == 'text_input' %}
+                                <i class="bi bi-pencil me-1"></i> Текстовый ответ
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+
+                {% if question.question_type == 'single_choice' %}
+                    {% for option in question.options %}
+                    <div class="form-check mb-2 p-3 bg-light rounded-3">
+                        <input class="form-check-input" type="radio" name="q_{{ question.id }}" 
+                               id="q_{{ question.id }}_{{ loop.index }}" value="{{ option }}">
+                        <label class="form-check-label w-100" for="q_{{ question.id }}_{{ loop.index }}">
+                            {{ option }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                {% elif question.question_type == 'multiple_choice' %}
+                    {% for option in question.options %}
+                    <div class="form-check mb-2 p-3 bg-light rounded-3">
+                        <input class="form-check-input" type="checkbox" name="q_{{ question.id }}" 
+                               id="q_{{ question.id }}_{{ loop.index }}" value="{{ option }}">
+                        <label class="form-check-label w-100" for="q_{{ question.id }}_{{ loop.index }}">
+                            {{ option }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                {% elif question.question_type == 'text_input' %}
+                    <input type="text" class="form-control rounded-pill px-4 py-2" name="q_{{ question.id }}" 
+                           placeholder="Введите ваш ответ...">
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success btn-lg rounded-pill px-5 shadow">
+                    <i class="bi bi-send me-2"></i> Завершить тест
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Подсчёт отвеченных вопросов и обновление прогресс-бара
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('test-form');
+        const progressBar = document.getElementById('test-progress');
+        const answeredCount = document.getElementById('answered-count');
+        const totalQuestions = {{ questions|length }};
+        
+        function updateProgress() {
+            let answered = 0;
+            const questionIds = new Set();
+            const inputs = form.querySelectorAll('input[type="radio"]:checked, input[type="checkbox"]:checked, input[type="text"]');
+            inputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    const name = input.name; // q_X
+                    questionIds.add(name);
+                }
+            });
+            answered = questionIds.size;
+            
+            const percent = (answered / totalQuestions) * 100;
+            progressBar.style.width = percent + '%';
+            answeredCount.textContent = 'Отвечено: ' + answered + ' из ' + totalQuestions;
+        }
+        
+        form.addEventListener('change', updateProgress);
+        form.addEventListener('input', updateProgress);
+        updateProgress(); // начальный вызов
+    });
+</script>
 {% endblock %}

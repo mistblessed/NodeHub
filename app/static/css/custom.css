@@ -258,3 +258,62 @@ section, .container, .bg-light, .bg-primary {
 .sidebar .nav-link.active i {
     color: white;
 }
+
+/* Карточки модулей */
+.module-card .icon-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Боковая панель урока */
+.list-group-item.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+.list-group-item.active i {
+    color: white;
+}
+
+/* Хлебные крошки */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+}
+.breadcrumb-item a {
+    color: var(--secondary);
+    text-decoration: none;
+}
+.breadcrumb-item.active {
+    color: var(--primary);
+}
+
+/* Контент урока */
+.lesson-content pre {
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
+}
+
+/* Карточки вопросов */
+.question-card {
+    transition: transform 0.2s;
+}
+.question-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+.question-card .form-check-input:checked {
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+}
+.question-card .form-check {
+    cursor: pointer;
+}
+.question-card .form-check:hover {
+    background-color: rgba(95,160,78,0.08);
+}
