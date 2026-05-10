@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <!-- Сайдбар -->
+    <nav class="col-md-3 col-lg-2 d-md-block bg-white sidebar rounded-4 shadow-sm p-3 mb-4 mb-md-0">
+        <div class="position-sticky pt-2">
+            <h6 class="text-muted fw-bold mb-3 px-2">Администрирование</h6>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 rounded-3 py-2 px-3
+                              {% if request.endpoint == 'admin.dashboard' %}active{% endif %}"
+                       href="{{ url_for('admin.dashboard') }}">
+                        <i class="bi bi-speedometer2 fs-5"></i> Панель
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 rounded-3 py-2 px-3
+                              {% if 'admin.list_users' in request.endpoint or 'admin.change_role' in request.endpoint or 'admin.delete_user' in request.endpoint %}active{% endif %}"
+                       href="{{ url_for('admin.list_users') }}">
+                        <i class="bi bi-people fs-5"></i> Пользователи
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2 rounded-3 py-2 px-3
+                              {% if 'admin.list_modules' in request.endpoint or 'admin.create_module' in request.endpoint or 'admin.edit_module' in request.endpoint or 'admin.list_lessons' in request.endpoint or 'admin.list_tests' in request.endpoint %}active{% endif %}"
+                       href="{{ url_for('admin.list_modules') }}">
+                        <i class="bi bi-collection-play fs-5"></i> Модули / Уроки / Тесты
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Основной контент -->
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            {% block admin_content %}{% endblock %}
+        </div>
+    </main>
+</div>
+{% endblock %}

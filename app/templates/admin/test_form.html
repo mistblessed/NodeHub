@@ -1,10 +1,18 @@
-{% extends "base.html" %}
-{% block content %}
-<h1>{% if test %}Редактирование теста{% else %}Новый тест{% endif %} (модуль «{{ module.title }}»)</h1>
+{% extends "admin/layout.html" %}
+{% block admin_content %}
+<h3 class="fw-bold mb-4"><i class="bi bi-plus-circle me-2 text-warning"></i>Новый тест для модуля «{{ module.title }}»</h3>
+
 <form method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <div class="mb-3"><label class="form-label">Название теста</label><input type="text" name="title" class="form-control" value="{{ test.title if test else '' }}" required></div>
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-    <a href="{{ url_for('admin.list_tests', module_id=module.id) }}" class="btn btn-secondary">Отмена</a>
+    <div class="form-floating mb-3">
+        <input type="text" name="title" id="title" class="form-control" placeholder="Название теста" required>
+        <label for="title">Название теста</label>
+    </div>
+    <button type="submit" class="btn btn-warning rounded-pill px-4">
+        <i class="bi bi-check-lg me-1"></i> Создать
+    </button>
+    <a href="{{ url_for('admin.list_tests', module_id=module.id) }}" class="btn btn-outline-secondary rounded-pill px-4">
+        Отмена
+    </a>
 </form>
 {% endblock %}

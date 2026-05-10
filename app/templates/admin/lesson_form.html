@@ -1,12 +1,36 @@
-{% extends "base.html" %}
-{% block content %}
-<h1>{% if lesson %}Редактирование урока{% else %}Новый урок{% endif %} (модуль «{{ module.title }}»)</h1>
+{% extends "admin/layout.html" %}
+{% block admin_content %}
+<h3 class="fw-bold mb-4">
+    {% if lesson %}Редактирование урока{% else %}Новый урок{% endif %}
+    <small class="text-muted fs-6"> для модуля «{{ module.title }}»</small>
+</h3>
+
 <form method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-    <div class="mb-3"><label class="form-label">Название</label><input type="text" name="title" class="form-control" value="{{ lesson.title if lesson else '' }}" required></div>
-    <div class="mb-3"><label class="form-label">Содержание (HTML / Markdown)</label><textarea name="content" class="form-control" rows="10">{{ lesson.theoretical_content if lesson else '' }}</textarea></div>
-    <div class="mb-3"><label class="form-label">Порядок</label><input type="number" name="order" class="form-control" value="{{ lesson.order if lesson else 0 }}"></div>
-    <button type="submit" class="btn btn-primary">Сохранить</button>
-    <a href="{{ url_for('admin.list_lessons', module_id=module.id) }}" class="btn btn-secondary">Отмена</a>
+    <div class="row g-3">
+        <div class="col-md-8">
+            <div class="form-floating mb-3">
+                <input type="text" name="title" id="title" class="form-control" placeholder="Название" value="{{ lesson.title if lesson else '' }}" required>
+                <label for="title">Название урока</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-floating mb-3">
+                <input type="number" name="order" id="order" class="form-control" placeholder="Порядок" value="{{ lesson.order if lesson else 0 }}">
+                <label for="order">Порядок сортировки</label>
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="content" class="form-label fw-semibold">Содержание <small class="text-muted">(HTML)</small></label>
+        <textarea name="content" id="content" class="form-control" rows="15" placeholder="Введите HTML с примерами кода...">{{ lesson.theoretical_content if lesson else '' }}</textarea>
+        <small class="text-muted">Для подсветки кода оборачивайте примеры в <code>&lt;pre&gt;&lt;code class="language-javascript"&gt;...&lt;/code&gt;&lt;/pre&gt;</code></small>
+    </div>
+    <button type="submit" class="btn btn-success rounded-pill px-4">
+        <i class="bi bi-check-lg me-1"></i> Сохранить
+    </button>
+    <a href="{{ url_for('admin.list_lessons', module_id=module.id) }}" class="btn btn-outline-secondary rounded-pill px-4">
+        Отмена
+    </a>
 </form>
 {% endblock %}

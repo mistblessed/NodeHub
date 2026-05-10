@@ -7,11 +7,25 @@
     --light-bg: #f8f9fa;
 }
 
+html, body {
+    height: 100%;
+    margin: 0;
+}
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Inter', 'Roboto', sans-serif;
     background-color: #ffffff;
     color: #333;
 }
+.wrapper {
+    flex: 1 0 auto;
+}
+footer {
+    flex-shrink: 0;
+}
+
 
 /* Навигация */
 .navbar {
@@ -174,6 +188,31 @@ section, .container, .bg-light, .bg-primary {
     letter-spacing: -0.5px;
 }
 
+/* Карточки прогресса модулей */
+.module-progress-card {
+    transition: all 0.2s ease;
+}
+.module-progress-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+.progress {
+    background-color: #e9ecef;
+    border-radius: 10px;
+}
+.progress-bar {
+    border-radius: 10px;
+}
+.list-group-item {
+    transition: background 0.15s;
+}
+.list-group-item:hover {
+    background-color: #f8f9fa;
+}
+.helloProfile{
+    color: var(--primary);
+}
+
 /* === ФУТЕР === */
 .footer {
     border-top: 3px solid var(--accent);
@@ -181,4 +220,41 @@ section, .container, .bg-light, .bg-primary {
 .footer a:hover {
     color: var(--secondary) !important;
     transition: 0.2s;
+}
+
+/* Сайдбар админки */
+.sidebar {
+    background-color: #ffffff;
+    border: 1px solid rgba(44, 62, 80, 0.1);
+}
+.sidebar .nav-link {
+    color: var(--primary) !important;   /* переопределяем белый цвет */
+    background-color: transparent;
+    font-weight: 500;
+    opacity: 0.85;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 2px;
+    transition: all 0.2s;
+}
+.sidebar .nav-link i {
+    color: inherit;                     /* иконки наследуют цвет текста */
+    font-size: 1.2rem;
+    width: 1.5rem;
+    text-align: center;
+}
+.sidebar .nav-link:hover {
+    background-color: rgba(44, 62, 80, 0.08);
+    opacity: 1;
+    color: var(--primary) !important;
+}
+.sidebar .nav-link.active {
+    background-color: var(--primary);
+    color: white !important;
+    font-weight: 600;
+    opacity: 1;
+    box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
+}
+.sidebar .nav-link.active i {
+    color: white;
 }

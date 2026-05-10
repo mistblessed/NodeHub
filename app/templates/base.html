@@ -12,6 +12,8 @@
 </head>
 <body>
 
+    <div class="wrapper">
+
     <!-- Шапка -->
     <div class="container mt-3">
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom rounded-3 shadow-sm px-3">
@@ -41,7 +43,7 @@
         </nav>
     </div>
 
-    <main class="container mt-4">
+    <main class="container mt-4 flex-grow-1">
         <!-- flash-сообщения -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -56,6 +58,8 @@
 
         {% block content %}{% endblock %}
     </main>
+
+    </div>
 
     <!-- Футер -->
     <footer class="footer mt-5 py-4 bg-dark text-light">

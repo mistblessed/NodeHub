@@ -1,41 +1,63 @@
-{% extends "base.html" %}
-{% block content %}
-<h1>Управление пользователями</h1>
-<table class="table table-bordered mt-3">
-    <thead>
+{% extends "admin/layout.html" %}
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold m-0"><i class="bi bi-people me-2 text-primary"></i>Пользователи</h3>
+</div>
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
         <tr>
             <th>ID</th>
             <th>Логин</th>
             <th>Email</th>
             <th>Роль</th>
-            <th>Действия</th>
+            <th style="width: 260px;">Действия</th>
         </tr>
     </thead>
     <tbody>
         {% for user in users %}
         <tr>
             <td>{{ user.id }}</td>
-            <td>{{ user.username }}</td>
+            <td><strong>{{ user.username }}</strong></td>
             <td>{{ user.email }}</td>
-            <td>{{ user.role }}</td>
             <td>
-                <form method="POST" action="{{ url_for('admin.change_role', user_id=user.id) }}" class="d-flex mb-1">
+                <span class="badge rounded-pill {% if user.role == 'admin' %}bg-success{% else %}bg-primary{% endif %}">
+                    {{ user.role }}
+                </span>
+            </td>
+            <td>
+                <form method="POST" action="{{ url_for('admin.change_role', user_id=user.id) }}" class="d-inline-flex align-items-center me-1">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <select name="role" class="form-select form-select-sm me-2">
-                        ...
+                    <select name="role" class="form-select form-select-sm me-2" style="width: auto;">
+                        <option value="student" {% if user.role == 'student' %}selected{% endif %}>Студент</option>
+                        <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Администратор</option>
                     </select>
-                    <button type="submit" class="btn btn-sm btn-primary">Изменить</button>
+                    <button type="submit" class="btn btn-sm btn-outline-primary rounded-pill">Сохранить</button>
                 </form>
+                <button type="button" class="btn btn-sm btn-outline-danger rounded-pill"
+                        data-bs-toggle="modal" data-bs-target="#deleteUserModal{{ user.id }}">
+                    <i class="bi bi-trash"></i>
+                </button>
 
-                <form method="POST" action="{{ url_for('admin.delete_user_view', user_id=user.id) }}">
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                    <button type="submit" class="btn btn-sm btn-danger"
-                        onclick="return confirm('Удалить пользователя?')">Удалить</button>
-                </form>
+                <!-- Модальное окно удаления -->
+                <div class="modal fade" id="deleteUserModal{{ user.id }}" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content rounded-4 border-0 shadow">
+                            <div class="modal-body p-4 text-center">
+                                <i class="bi bi-exclamation-triangle fs-1 text-danger"></i>
+                                <p class="mt-2 mb-0">Удалить пользователя <strong>{{ user.username }}</strong>?</p>
+                                <form method="POST" action="{{ url_for('admin.delete_user_view', user_id=user.id) }}" class="mt-3">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="btn btn-danger rounded-pill px-4">Удалить</button>
+                                    <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Отмена</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Назад</a>
 {% endblock %}
