@@ -6,5 +6,6 @@ def test_profile_shows_progress(client, auth):
     auth.login()
     response = client.get('/profile/')
     decoded = response.data.decode('utf-8')
+    # Должен быть заголовок "Прогресс по модулям" и блок "Последние действия"
     assert 'Прогресс по модулям' in decoded
-    assert 'Основы Node.js' in decoded
+    assert 'Последние действия' in decoded
