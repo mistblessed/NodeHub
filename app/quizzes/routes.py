@@ -14,7 +14,7 @@ def show_test(test_id):
     if not test:
         abort(404)
     questions = get_questions_for_test(test_id)
-    return render_template('quizzes/test.html', test=test, questions=questions)
+    return render_template('quizzes/test.html', test=test, questions=questions, page_title=test.title)
 
 @quizzes_bp.route('/test/<int:test_id>', methods=['POST'])
 @login_required
@@ -41,7 +41,7 @@ def submit_test(test_id):
     save_user_answers(current_user.id, answers)
 
     return render_template('quizzes/result.html', 
-                           test=test, correct=correct, total=total, percent=percent)
+                           test=test, correct=correct, total=total, percent=percent, page_title=f'{test.title} — Результат')
 
 # Для JSON
 import json

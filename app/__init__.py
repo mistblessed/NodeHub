@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, redirect, request, url_for
+from flask import Flask, render_template, flash, redirect, request, url_for, send_from_directory
 from app.config import Config
 from flask_login import LoginManager
 from app.models.user import User
@@ -6,13 +6,25 @@ from app.db.connection import fetch_one
 from flask_wtf.csrf import CSRFProtect
 from app.feedback.services import submit_feedback
 from flask_login import current_user
+from app.db.connection import get_pool, get_connection, return_connection
 
 
 login_manager = LoginManager()
+app = Flask(__name__)
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+
+
+    with app.app_context():
+        if not hasattr(app, 'db_initialized'):
+            try:
+                get_pool()
+                app.db_initialized = True
+                print("Пул соединений с БД успешно инициализирован.")
+            except Exception as e:
+                print(f"Ошибка при инициализации пула БД: {e}")
 
     csrf = CSRFProtect(app)
 
@@ -20,6 +32,14 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.login_message = 'Пожалуйста, войдите для доступа к этой странице.'
     login_manager.login_message_category = 'info'
+
+    @app.route('/robots.txt')
+    def static_from_root():
+        return send_from_directory(app.static_folder, 'robots.txt')
+    
+    @app.route('/sitemap.xml')
+    def sitemap():
+        return send_from_directory(app.static_folder, 'sitemap.xml')
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -46,11 +66,11 @@ def create_app():
 
     @app.route('/')
     def index():
-        return render_template('index.html')
+        return render_template('index.html', page_title='Главная')
     
     @app.route('/about')
     def about():
-        return render_template('about.html')
+        return render_template('about.html', page_title='О проекте')
 
     @app.route('/contacts', methods=['GET', 'POST'])
     def contacts():
@@ -82,6 +102,6 @@ def create_app():
                 flash('Сообщение отправлено! Мы свяжемся с вами.', 'success')
                 return redirect(url_for('contacts'))
         # GET — покажем форму
-        return render_template('contacts.html')
+        return render_template('contacts.html', page_title='Контакты')
 
     return app

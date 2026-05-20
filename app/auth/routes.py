@@ -18,7 +18,7 @@ def register():
         )
         flash('Регистрация прошла успешно! Теперь вы можете войти.', 'success')
         return redirect(url_for('auth.login'))
-    return render_template('auth/register.html', form=form)
+    return render_template('auth/register.html', form=form, page_title='Регистрация')
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -34,7 +34,7 @@ def login():
             return redirect(next_page or url_for('index'))
         else:
             flash('Неверный логин или пароль.', 'danger')
-    return render_template('auth/login.html', form=form)
+    return render_template('auth/login.html', form=form, page_title='Вход')
 
 @auth_bp.route('/logout')
 @login_required

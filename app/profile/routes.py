@@ -11,4 +11,4 @@ def index():
     module_summary = get_module_progress_summary(current_user.id)
     return render_template('profile/index.html', 
                            progress_items=progress_items,
-                           module_summary=module_summary)
+                           module_summary=module_summary, page_title='Личный кабинет')

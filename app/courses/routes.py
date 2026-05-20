@@ -14,7 +14,7 @@ courses_bp = Blueprint('courses', __name__)
 @courses_bp.route('/modules')
 def modules_list():
     modules = get_all_modules()
-    return render_template('courses/modules.html', modules=modules)
+    return render_template('courses/modules.html', modules=modules, page_title='Структура курса')
 
 @courses_bp.route('/modules/<int:module_id>')
 def module_detail(module_id):
@@ -43,7 +43,7 @@ def module_detail(module_id):
                            modules=modules,
                            selected_module=selected_module,
                            lessons=lessons,
-                           tests=tests)
+                           tests=tests, page_title=selected_module.title)
 
 @courses_bp.route('/lessons/<int:lesson_id>')
 @login_required
@@ -76,7 +76,7 @@ def lesson_detail(lesson_id):
                            lesson=lesson,
                            module=module,
                            module_lessons=module_lessons,
-                           completed=completed)
+                           completed=completed, page_title=lesson.title)
 
 @courses_bp.route('/lessons/<int:lesson_id>/complete', methods=['POST'])
 @login_required
