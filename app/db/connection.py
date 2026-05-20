@@ -1,43 +1,49 @@
 import psycopg2
-from psycopg2 import pool
+from psycopg2 import pool, errors
 from app.config import Config
 
-# Глобальная переменная для пула соединений
 _connection_pool = None
 
 def get_pool():
-    """Инициализирует и возвращает пул соединений (синглтон)."""
     global _connection_pool
     if _connection_pool is None:
         config = Config()
         _connection_pool = pool.ThreadedConnectionPool(
             minconn=1,
-            maxconn=10,
+            maxconn=5,                     # уменьшаем максимальное количество соединений
             host=config.DB_HOST,
             port=config.DB_PORT,
             dbname=config.DB_NAME,
             user=config.DB_USER,
             password=config.DB_PASSWORD,
             client_encoding='UTF8',
-            sslmode='require'
+            sslmode='require',
+            connect_timeout=10,            # таймаут подключения
+            keepalives=1,                  # включение keepalive
+            keepalives_idle=30,            # секунд простоя до проверки
+            keepalives_interval=10,        # интервал между проверками
+            keepalives_count=5             # количество попыток
         )
     return _connection_pool
 
 def get_connection():
-    """Возвращает соединение из пула."""
+    """Получает соединение из пула."""
     return get_pool().getconn()
 
-def return_connection(conn):
-    """Возвращает соединение обратно в пул."""
-    get_pool().putconn(conn)
+def return_connection(conn, close=False):
+    """
+    Возвращает соединение в пул.
+    Если close=True, соединение закрывается и удаляется из пула.
+    """
+    if close:
+        get_pool().putconn(conn, close=True)
+    else:
+        get_pool().putconn(conn)
 
 def execute_query(query, params=None, fetch=False):
     """
     Выполняет SQL-запрос, при необходимости возвращает результат.
-    :param query: строка SQL
-    :param params: кортеж параметров для параметризованного запроса
-    :param fetch: если True, возвращает список словарей (для SELECT)
-    :return: результат выборки или None
+    При возникновении ошибки соединение закрывается.
     """
     conn = None
     result = None
@@ -46,18 +52,21 @@ def execute_query(query, params=None, fetch=False):
         with conn.cursor() as cur:
             cur.execute(query, params)
             if fetch:
-                # Получаем названия колонок
                 columns = [desc[0] for desc in cur.description] if cur.description else []
                 rows = cur.fetchall()
                 result = [dict(zip(columns, row)) for row in rows]
             conn.commit()
     except Exception as e:
         if conn:
-            conn.rollback()
+            try:
+                conn.rollback()
+            except Exception:
+                pass
+            return_connection(conn, close=True)   # закрываем сбойное соединение
         raise e
-    finally:
+    else:
         if conn:
-            return_connection(conn)
+            return_connection(conn)                # успешное выполнение — возвращаем в пул
     return result
 
 def fetch_one(query, params=None):
@@ -72,7 +81,7 @@ def fetch_all(query, params=None):
 def execute_insert(query, params=None):
     """
     Выполняет INSERT-запрос и возвращает id вставленной записи.
-    Предполагается, что запрос содержит RETURNING id.
+    При ошибке соединение закрывается.
     """
     conn = None
     inserted_id = None
@@ -86,9 +95,13 @@ def execute_insert(query, params=None):
             conn.commit()
     except Exception as e:
         if conn:
-            conn.rollback()
+            try:
+                conn.rollback()
+            except Exception:
+                pass
+            return_connection(conn, close=True)
         raise e
-    finally:
+    else:
         if conn:
             return_connection(conn)
     return inserted_id
