@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /auth/
 Disallow: /profile/
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://nodehub.onrender.com/sitemap.xml
