@@ -18,7 +18,8 @@ def get_pool():
             dbname=config.DB_NAME,
             user=config.DB_USER,
             password=config.DB_PASSWORD,
-            client_encoding='UTF8'
+            client_encoding='UTF8',
+            sslmode='require'
         )
     return _connection_pool
 
