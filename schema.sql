@@ -2,12 +2,12 @@
 -- PostgreSQL database dump
 --
 
-\restrict KbNnglWlgCSVjVNsMxjS6arz1UBVPouQ9HrUzb2SvJg6mRrdfESvginEJPjNvXd
+\restrict 4dbQ4pXAAQBgzuJTWCKuzCToaKv0izaMRYOscZeaIx1CnaT58M62p2xAtWailg9
 
 -- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.3
 
--- Started on 2026-05-10 13:46:10
+-- Started on 2026-05-20 14:53:13
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -26,7 +26,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 234 (class 1259 OID 25362)
+-- TOC entry 220 (class 1259 OID 25362)
 -- Name: feedback; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -46,7 +46,7 @@ CREATE TABLE public.feedback (
 ALTER TABLE public.feedback OWNER TO postgres;
 
 --
--- TOC entry 233 (class 1259 OID 25361)
+-- TOC entry 219 (class 1259 OID 25361)
 -- Name: feedback_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -62,8 +62,8 @@ CREATE SEQUENCE public.feedback_id_seq
 ALTER SEQUENCE public.feedback_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5021 (class 0 OID 0)
--- Dependencies: 233
+-- TOC entry 5020 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: feedback_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -71,7 +71,7 @@ ALTER SEQUENCE public.feedback_id_seq OWNED BY public.feedback.id;
 
 
 --
--- TOC entry 224 (class 1259 OID 25201)
+-- TOC entry 221 (class 1259 OID 26622)
 -- Name: lessons; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -87,7 +87,7 @@ CREATE TABLE public.lessons (
 ALTER TABLE public.lessons OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 25200)
+-- TOC entry 222 (class 1259 OID 26633)
 -- Name: lessons_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -103,8 +103,8 @@ CREATE SEQUENCE public.lessons_id_seq
 ALTER SEQUENCE public.lessons_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5022 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 5021 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: lessons_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -112,7 +112,7 @@ ALTER SEQUENCE public.lessons_id_seq OWNED BY public.lessons.id;
 
 
 --
--- TOC entry 222 (class 1259 OID 25187)
+-- TOC entry 223 (class 1259 OID 26634)
 -- Name: modules; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -127,7 +127,7 @@ CREATE TABLE public.modules (
 ALTER TABLE public.modules OWNER TO postgres;
 
 --
--- TOC entry 221 (class 1259 OID 25186)
+-- TOC entry 224 (class 1259 OID 26643)
 -- Name: modules_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -143,8 +143,8 @@ CREATE SEQUENCE public.modules_id_seq
 ALTER SEQUENCE public.modules_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5023 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 5022 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: modules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -152,7 +152,7 @@ ALTER SEQUENCE public.modules_id_seq OWNED BY public.modules.id;
 
 
 --
--- TOC entry 228 (class 1259 OID 25239)
+-- TOC entry 225 (class 1259 OID 26644)
 -- Name: questions; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -163,14 +163,14 @@ CREATE TABLE public.questions (
     options jsonb,
     correct_answer text NOT NULL,
     test_id integer NOT NULL,
-    CONSTRAINT questions_question_type_check CHECK (((question_type)::text = ANY ((ARRAY['single_choice'::character varying, 'multiple_choice'::character varying, 'text_input'::character varying])::text[])))
+    CONSTRAINT questions_question_type_check CHECK (((question_type)::text = ANY (ARRAY[('single_choice'::character varying)::text, ('multiple_choice'::character varying)::text, ('text_input'::character varying)::text])))
 );
 
 
 ALTER TABLE public.questions OWNER TO postgres;
 
 --
--- TOC entry 227 (class 1259 OID 25238)
+-- TOC entry 226 (class 1259 OID 26655)
 -- Name: questions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -186,8 +186,8 @@ CREATE SEQUENCE public.questions_id_seq
 ALTER SEQUENCE public.questions_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5024 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 5023 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: questions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -195,7 +195,7 @@ ALTER SEQUENCE public.questions_id_seq OWNED BY public.questions.id;
 
 
 --
--- TOC entry 226 (class 1259 OID 25223)
+-- TOC entry 227 (class 1259 OID 26656)
 -- Name: tests; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -209,7 +209,7 @@ CREATE TABLE public.tests (
 ALTER TABLE public.tests OWNER TO postgres;
 
 --
--- TOC entry 225 (class 1259 OID 25222)
+-- TOC entry 228 (class 1259 OID 26662)
 -- Name: tests_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -225,8 +225,8 @@ CREATE SEQUENCE public.tests_id_seq
 ALTER SEQUENCE public.tests_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5025 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 5024 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: tests_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -234,7 +234,7 @@ ALTER SEQUENCE public.tests_id_seq OWNED BY public.tests.id;
 
 
 --
--- TOC entry 232 (class 1259 OID 25292)
+-- TOC entry 229 (class 1259 OID 26663)
 -- Name: user_answers; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -251,7 +251,7 @@ CREATE TABLE public.user_answers (
 ALTER TABLE public.user_answers OWNER TO postgres;
 
 --
--- TOC entry 231 (class 1259 OID 25291)
+-- TOC entry 230 (class 1259 OID 26674)
 -- Name: user_answers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -267,8 +267,8 @@ CREATE SEQUENCE public.user_answers_id_seq
 ALTER SEQUENCE public.user_answers_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5026 (class 0 OID 0)
--- Dependencies: 231
+-- TOC entry 5025 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: user_answers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -276,7 +276,7 @@ ALTER SEQUENCE public.user_answers_id_seq OWNED BY public.user_answers.id;
 
 
 --
--- TOC entry 230 (class 1259 OID 25260)
+-- TOC entry 231 (class 1259 OID 26675)
 -- Name: user_progress; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -289,14 +289,14 @@ CREATE TABLE public.user_progress (
     score real,
     completed_at timestamp with time zone DEFAULT now(),
     CONSTRAINT chk_progress_object CHECK ((((lesson_id IS NOT NULL) AND (test_id IS NULL)) OR ((lesson_id IS NULL) AND (test_id IS NOT NULL)))),
-    CONSTRAINT user_progress_status_check CHECK (((status)::text = ANY ((ARRAY['in_progress'::character varying, 'completed'::character varying, 'failed'::character varying])::text[])))
+    CONSTRAINT user_progress_status_check CHECK (((status)::text = ANY (ARRAY[('in_progress'::character varying)::text, ('completed'::character varying)::text, ('failed'::character varying)::text])))
 );
 
 
 ALTER TABLE public.user_progress OWNER TO postgres;
 
 --
--- TOC entry 229 (class 1259 OID 25259)
+-- TOC entry 232 (class 1259 OID 26685)
 -- Name: user_progress_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -312,8 +312,8 @@ CREATE SEQUENCE public.user_progress_id_seq
 ALTER SEQUENCE public.user_progress_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5027 (class 0 OID 0)
--- Dependencies: 229
+-- TOC entry 5026 (class 0 OID 0)
+-- Dependencies: 232
 -- Name: user_progress_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -321,7 +321,7 @@ ALTER SEQUENCE public.user_progress_id_seq OWNED BY public.user_progress.id;
 
 
 --
--- TOC entry 220 (class 1259 OID 25166)
+-- TOC entry 233 (class 1259 OID 26686)
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -332,14 +332,14 @@ CREATE TABLE public.users (
     password_hash character varying(255) NOT NULL,
     role character varying(20) DEFAULT 'student'::character varying NOT NULL,
     created_at timestamp with time zone DEFAULT now(),
-    CONSTRAINT users_role_check CHECK (((role)::text = ANY ((ARRAY['student'::character varying, 'admin'::character varying])::text[])))
+    CONSTRAINT users_role_check CHECK (((role)::text = ANY (ARRAY[('student'::character varying)::text, ('admin'::character varying)::text])))
 );
 
 
 ALTER TABLE public.users OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 25165)
+-- TOC entry 234 (class 1259 OID 26697)
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -355,8 +355,8 @@ CREATE SEQUENCE public.users_id_seq
 ALTER SEQUENCE public.users_id_seq OWNER TO postgres;
 
 --
--- TOC entry 5028 (class 0 OID 0)
--- Dependencies: 219
+-- TOC entry 5027 (class 0 OID 0)
+-- Dependencies: 234
 -- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -364,7 +364,7 @@ ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- TOC entry 4804 (class 2604 OID 25365)
+-- TOC entry 4790 (class 2604 OID 26698)
 -- Name: feedback id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -372,7 +372,7 @@ ALTER TABLE ONLY public.feedback ALTER COLUMN id SET DEFAULT nextval('public.fee
 
 
 --
--- TOC entry 4795 (class 2604 OID 25204)
+-- TOC entry 4793 (class 2604 OID 26699)
 -- Name: lessons id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -380,7 +380,7 @@ ALTER TABLE ONLY public.lessons ALTER COLUMN id SET DEFAULT nextval('public.less
 
 
 --
--- TOC entry 4793 (class 2604 OID 25190)
+-- TOC entry 4795 (class 2604 OID 26700)
 -- Name: modules id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -388,7 +388,7 @@ ALTER TABLE ONLY public.modules ALTER COLUMN id SET DEFAULT nextval('public.modu
 
 
 --
--- TOC entry 4798 (class 2604 OID 25242)
+-- TOC entry 4797 (class 2604 OID 26701)
 -- Name: questions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -396,7 +396,7 @@ ALTER TABLE ONLY public.questions ALTER COLUMN id SET DEFAULT nextval('public.qu
 
 
 --
--- TOC entry 4797 (class 2604 OID 25226)
+-- TOC entry 4798 (class 2604 OID 26702)
 -- Name: tests id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -404,7 +404,7 @@ ALTER TABLE ONLY public.tests ALTER COLUMN id SET DEFAULT nextval('public.tests_
 
 
 --
--- TOC entry 4802 (class 2604 OID 25295)
+-- TOC entry 4799 (class 2604 OID 26703)
 -- Name: user_answers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -412,7 +412,7 @@ ALTER TABLE ONLY public.user_answers ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
--- TOC entry 4799 (class 2604 OID 25263)
+-- TOC entry 4801 (class 2604 OID 26704)
 -- Name: user_progress id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -420,7 +420,7 @@ ALTER TABLE ONLY public.user_progress ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 4790 (class 2604 OID 25169)
+-- TOC entry 4804 (class 2604 OID 26705)
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -428,19 +428,18 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 
 --
--- TOC entry 5015 (class 0 OID 25362)
--- Dependencies: 234
+-- TOC entry 5000 (class 0 OID 25362)
+-- Dependencies: 220
 -- Data for Name: feedback; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.feedback (id, user_id, name, email, subject, message, status, created_at) FROM stdin;
-1	3	mist	sadovnikof2018@yandex.ru	Привет	привет	new	2026-05-10 13:13:29.532821+03
 \.
 
 
 --
--- TOC entry 5005 (class 0 OID 25201)
--- Dependencies: 224
+-- TOC entry 5001 (class 0 OID 26622)
+-- Dependencies: 221
 -- Data for Name: lessons; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -461,21 +460,21 @@ COPY public.lessons (id, title, theoretical_content, "order", module_id) FROM st
 
 
 --
--- TOC entry 5003 (class 0 OID 25187)
--- Dependencies: 222
+-- TOC entry 5003 (class 0 OID 26634)
+-- Dependencies: 223
 -- Data for Name: modules; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.modules (id, title, description, "order") FROM stdin;
 1	Основы Node.js	Введение в платформу, установка и первые шаги.	1
-2	Работа с модулями и NPM	Система модулей, менеджер пакетов и экосистема.	2
 3	Создание HTTP-сервера	Встроенные модули http, маршрутизация и Express.	3
+2	Работа с модулями и NPM!	Система модулей, менеджер пакетов и экосистема.	2
 \.
 
 
 --
--- TOC entry 5009 (class 0 OID 25239)
--- Dependencies: 228
+-- TOC entry 5005 (class 0 OID 26644)
+-- Dependencies: 225
 -- Data for Name: questions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -499,8 +498,8 @@ COPY public.questions (id, text, question_type, options, correct_answer, test_id
 
 
 --
--- TOC entry 5007 (class 0 OID 25223)
--- Dependencies: 226
+-- TOC entry 5007 (class 0 OID 26656)
+-- Dependencies: 227
 -- Data for Name: tests; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -512,8 +511,8 @@ COPY public.tests (id, title, module_id) FROM stdin;
 
 
 --
--- TOC entry 5013 (class 0 OID 25292)
--- Dependencies: 232
+-- TOC entry 5009 (class 0 OID 26663)
+-- Dependencies: 229
 -- Data for Name: user_answers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -536,28 +535,44 @@ COPY public.user_answers (id, user_id, question_id, given_answer, is_correct, an
 21	5	18	Управляет DOM-деревом	f	2026-05-10 13:34:30.571563+03
 22	5	19	Верно	t	2026-05-10 13:34:30.572795+03
 23	5	20	123	f	2026-05-10 13:34:30.573869+03
+24	4	16	V8	t	2026-05-10 22:17:11.882604+03
+25	4	17	run file.js	f	2026-05-10 22:17:11.94999+03
+26	4	18	Управляет DOM-деревом	f	2026-05-10 22:17:11.951351+03
+27	4	19	Неверно	f	2026-05-10 22:17:11.952552+03
+28	4	20	version	f	2026-05-10 22:17:11.953699+03
+29	3	16	V8	t	2026-05-11 19:35:26.622765+03
+30	3	17	node file.js	t	2026-05-11 19:35:26.719666+03
+31	3	18	Предоставляет информацию о процессе	f	2026-05-11 19:35:26.737968+03
+32	3	19	Неверно	f	2026-05-11 19:35:26.739527+03
+33	3	20	123	f	2026-05-11 19:35:26.740601+03
 \.
 
 
 --
--- TOC entry 5011 (class 0 OID 25260)
--- Dependencies: 230
+-- TOC entry 5011 (class 0 OID 26675)
+-- Dependencies: 231
 -- Data for Name: user_progress; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.user_progress (id, user_id, lesson_id, test_id, status, score, completed_at) FROM stdin;
 6	3	4	\N	completed	\N	2026-05-10 11:37:01.566746+03
 8	3	1	\N	completed	\N	2026-05-10 12:42:33.181979+03
-7	3	\N	4	completed	20	2026-05-10 12:48:20.797937+03
 9	5	1	\N	completed	\N	2026-05-10 13:34:16.575389+03
 10	5	3	\N	completed	\N	2026-05-10 13:34:18.224948+03
 11	5	\N	4	completed	60	2026-05-10 13:34:30.556139+03
+12	4	1	\N	completed	\N	2026-05-10 22:16:20.259881+03
+13	4	2	\N	completed	\N	2026-05-10 22:16:23.940496+03
+14	4	3	\N	completed	\N	2026-05-10 22:16:26.306929+03
+15	4	4	\N	completed	\N	2026-05-10 22:16:27.972622+03
+16	4	\N	4	completed	20	2026-05-10 22:17:11.847846+03
+17	3	2	\N	completed	\N	2026-05-11 19:34:48.702601+03
+7	3	\N	4	completed	40	2026-05-11 19:35:26.324648+03
 \.
 
 
 --
--- TOC entry 5001 (class 0 OID 25166)
--- Dependencies: 220
+-- TOC entry 5013 (class 0 OID 26686)
+-- Dependencies: 233
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -565,21 +580,22 @@ COPY public.users (id, username, email, password_hash, role, created_at) FROM st
 3	mist	sadovnikof2018@yandex.ru	$2b$12$66QBYLFQ41ojE4YjeVwMyu0Awxh91VcJRTN.MKtBSr87ZtBjLLgGy	admin	2026-05-10 11:34:48.696932+03
 4	admin	admin@gmail.com	$2b$12$V2rBvwHvn5VgTgBPHNeraeyCxrdDdBXq26TGc7L2NBSQkEMJspa9O	admin	2026-05-10 11:39:24.817126+03
 5	student	student@gmail.com	$2b$12$h5WzQqkngdYQsLPMpWfKUultcBSqzcmX9VeQPr4j3rz7n2MWoe4jC	student	2026-05-10 11:39:55.273129+03
+6	privet	privet@yandex.ru	$2b$12$./SaSlU/sN76svZJq6I5MOajlFP40jTkxYUsM6Vl8QdTFnj5klKjq	student	2026-05-17 12:46:13.431696+03
 \.
 
 
 --
--- TOC entry 5029 (class 0 OID 0)
--- Dependencies: 233
+-- TOC entry 5028 (class 0 OID 0)
+-- Dependencies: 219
 -- Name: feedback_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.feedback_id_seq', 1, true);
+SELECT pg_catalog.setval('public.feedback_id_seq', 5, true);
 
 
 --
--- TOC entry 5030 (class 0 OID 0)
--- Dependencies: 223
+-- TOC entry 5029 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: lessons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -587,8 +603,8 @@ SELECT pg_catalog.setval('public.lessons_id_seq', 12, true);
 
 
 --
--- TOC entry 5031 (class 0 OID 0)
--- Dependencies: 221
+-- TOC entry 5030 (class 0 OID 0)
+-- Dependencies: 224
 -- Name: modules_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -596,8 +612,8 @@ SELECT pg_catalog.setval('public.modules_id_seq', 3, true);
 
 
 --
--- TOC entry 5032 (class 0 OID 0)
--- Dependencies: 227
+-- TOC entry 5031 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: questions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -605,8 +621,8 @@ SELECT pg_catalog.setval('public.questions_id_seq', 30, true);
 
 
 --
--- TOC entry 5033 (class 0 OID 0)
--- Dependencies: 225
+-- TOC entry 5032 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: tests_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -614,34 +630,34 @@ SELECT pg_catalog.setval('public.tests_id_seq', 6, true);
 
 
 --
--- TOC entry 5034 (class 0 OID 0)
--- Dependencies: 231
+-- TOC entry 5033 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: user_answers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.user_answers_id_seq', 23, true);
+SELECT pg_catalog.setval('public.user_answers_id_seq', 33, true);
+
+
+--
+-- TOC entry 5034 (class 0 OID 0)
+-- Dependencies: 232
+-- Name: user_progress_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.user_progress_id_seq', 17, true);
 
 
 --
 -- TOC entry 5035 (class 0 OID 0)
--- Dependencies: 229
--- Name: user_progress_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.user_progress_id_seq', 11, true);
-
-
---
--- TOC entry 5036 (class 0 OID 0)
--- Dependencies: 219
+-- Dependencies: 234
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 5, true);
+SELECT pg_catalog.setval('public.users_id_seq', 6, true);
 
 
 --
--- TOC entry 4843 (class 2606 OID 25375)
+-- TOC entry 4813 (class 2606 OID 25375)
 -- Name: feedback feedback_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -650,7 +666,7 @@ ALTER TABLE ONLY public.feedback
 
 
 --
--- TOC entry 4826 (class 2606 OID 25214)
+-- TOC entry 4817 (class 2606 OID 26707)
 -- Name: lessons lessons_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -659,7 +675,7 @@ ALTER TABLE ONLY public.lessons
 
 
 --
--- TOC entry 4822 (class 2606 OID 25198)
+-- TOC entry 4820 (class 2606 OID 26709)
 -- Name: modules modules_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -668,7 +684,7 @@ ALTER TABLE ONLY public.modules
 
 
 --
--- TOC entry 4832 (class 2606 OID 25252)
+-- TOC entry 4823 (class 2606 OID 26711)
 -- Name: questions questions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -677,7 +693,7 @@ ALTER TABLE ONLY public.questions
 
 
 --
--- TOC entry 4829 (class 2606 OID 25231)
+-- TOC entry 4826 (class 2606 OID 26713)
 -- Name: tests tests_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -686,7 +702,7 @@ ALTER TABLE ONLY public.tests
 
 
 --
--- TOC entry 4841 (class 2606 OID 25305)
+-- TOC entry 4830 (class 2606 OID 26715)
 -- Name: user_answers user_answers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -695,7 +711,7 @@ ALTER TABLE ONLY public.user_answers
 
 
 --
--- TOC entry 4837 (class 2606 OID 25272)
+-- TOC entry 4835 (class 2606 OID 26717)
 -- Name: user_progress user_progress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -704,7 +720,7 @@ ALTER TABLE ONLY public.user_progress
 
 
 --
--- TOC entry 4815 (class 2606 OID 25183)
+-- TOC entry 4839 (class 2606 OID 26719)
 -- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -713,7 +729,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4817 (class 2606 OID 25179)
+-- TOC entry 4841 (class 2606 OID 26721)
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -722,7 +738,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4819 (class 2606 OID 25181)
+-- TOC entry 4843 (class 2606 OID 26723)
 -- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -731,7 +747,7 @@ ALTER TABLE ONLY public.users
 
 
 --
--- TOC entry 4823 (class 1259 OID 25220)
+-- TOC entry 4814 (class 1259 OID 26724)
 -- Name: idx_lessons_module_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -739,7 +755,7 @@ CREATE INDEX idx_lessons_module_id ON public.lessons USING btree (module_id);
 
 
 --
--- TOC entry 4824 (class 1259 OID 25221)
+-- TOC entry 4815 (class 1259 OID 26725)
 -- Name: idx_lessons_order; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -747,7 +763,7 @@ CREATE INDEX idx_lessons_order ON public.lessons USING btree ("order");
 
 
 --
--- TOC entry 4820 (class 1259 OID 25199)
+-- TOC entry 4818 (class 1259 OID 26726)
 -- Name: idx_modules_order; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -755,7 +771,7 @@ CREATE INDEX idx_modules_order ON public.modules USING btree ("order");
 
 
 --
--- TOC entry 4830 (class 1259 OID 25258)
+-- TOC entry 4821 (class 1259 OID 26727)
 -- Name: idx_questions_test_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -763,7 +779,7 @@ CREATE INDEX idx_questions_test_id ON public.questions USING btree (test_id);
 
 
 --
--- TOC entry 4827 (class 1259 OID 25237)
+-- TOC entry 4824 (class 1259 OID 26728)
 -- Name: idx_tests_module_id; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -771,7 +787,7 @@ CREATE INDEX idx_tests_module_id ON public.tests USING btree (module_id);
 
 
 --
--- TOC entry 4838 (class 1259 OID 25317)
+-- TOC entry 4827 (class 1259 OID 26729)
 -- Name: idx_user_answers_question; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -779,7 +795,7 @@ CREATE INDEX idx_user_answers_question ON public.user_answers USING btree (quest
 
 
 --
--- TOC entry 4839 (class 1259 OID 25316)
+-- TOC entry 4828 (class 1259 OID 26730)
 -- Name: idx_user_answers_user; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -787,7 +803,7 @@ CREATE INDEX idx_user_answers_user ON public.user_answers USING btree (user_id);
 
 
 --
--- TOC entry 4833 (class 1259 OID 25289)
+-- TOC entry 4831 (class 1259 OID 26731)
 -- Name: idx_user_progress_lesson; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -795,7 +811,7 @@ CREATE INDEX idx_user_progress_lesson ON public.user_progress USING btree (lesso
 
 
 --
--- TOC entry 4834 (class 1259 OID 25290)
+-- TOC entry 4832 (class 1259 OID 26732)
 -- Name: idx_user_progress_test; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -803,7 +819,7 @@ CREATE INDEX idx_user_progress_test ON public.user_progress USING btree (test_id
 
 
 --
--- TOC entry 4835 (class 1259 OID 25288)
+-- TOC entry 4833 (class 1259 OID 26733)
 -- Name: idx_user_progress_user; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -811,7 +827,7 @@ CREATE INDEX idx_user_progress_user ON public.user_progress USING btree (user_id
 
 
 --
--- TOC entry 4812 (class 1259 OID 25185)
+-- TOC entry 4836 (class 1259 OID 26734)
 -- Name: idx_users_email; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -819,7 +835,7 @@ CREATE INDEX idx_users_email ON public.users USING btree (email);
 
 
 --
--- TOC entry 4813 (class 1259 OID 25184)
+-- TOC entry 4837 (class 1259 OID 26735)
 -- Name: idx_users_username; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -827,16 +843,7 @@ CREATE INDEX idx_users_username ON public.users USING btree (username);
 
 
 --
--- TOC entry 4852 (class 2606 OID 25376)
--- Name: feedback feedback_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.feedback
-    ADD CONSTRAINT feedback_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
-
-
---
--- TOC entry 4844 (class 2606 OID 25215)
+-- TOC entry 4844 (class 2606 OID 26741)
 -- Name: lessons lessons_module_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -845,7 +852,7 @@ ALTER TABLE ONLY public.lessons
 
 
 --
--- TOC entry 4846 (class 2606 OID 25253)
+-- TOC entry 4845 (class 2606 OID 26746)
 -- Name: questions questions_test_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -854,7 +861,7 @@ ALTER TABLE ONLY public.questions
 
 
 --
--- TOC entry 4845 (class 2606 OID 25232)
+-- TOC entry 4846 (class 2606 OID 26751)
 -- Name: tests tests_module_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -863,7 +870,7 @@ ALTER TABLE ONLY public.tests
 
 
 --
--- TOC entry 4850 (class 2606 OID 25311)
+-- TOC entry 4847 (class 2606 OID 26756)
 -- Name: user_answers user_answers_question_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -872,7 +879,7 @@ ALTER TABLE ONLY public.user_answers
 
 
 --
--- TOC entry 4851 (class 2606 OID 25306)
+-- TOC entry 4848 (class 2606 OID 26761)
 -- Name: user_answers user_answers_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -881,7 +888,7 @@ ALTER TABLE ONLY public.user_answers
 
 
 --
--- TOC entry 4847 (class 2606 OID 25278)
+-- TOC entry 4849 (class 2606 OID 26766)
 -- Name: user_progress user_progress_lesson_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -890,7 +897,7 @@ ALTER TABLE ONLY public.user_progress
 
 
 --
--- TOC entry 4848 (class 2606 OID 25283)
+-- TOC entry 4850 (class 2606 OID 26771)
 -- Name: user_progress user_progress_test_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -899,7 +906,7 @@ ALTER TABLE ONLY public.user_progress
 
 
 --
--- TOC entry 4849 (class 2606 OID 25273)
+-- TOC entry 4851 (class 2606 OID 26776)
 -- Name: user_progress user_progress_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -907,11 +914,11 @@ ALTER TABLE ONLY public.user_progress
     ADD CONSTRAINT user_progress_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
--- Completed on 2026-05-10 13:46:10
+-- Completed on 2026-05-20 14:53:15
 
 --
 -- PostgreSQL database dump complete
 --
 
-\unrestrict KbNnglWlgCSVjVNsMxjS6arz1UBVPouQ9HrUzb2SvJg6mRrdfESvginEJPjNvXd
+\unrestrict 4dbQ4pXAAQBgzuJTWCKuzCToaKv0izaMRYOscZeaIx1CnaT58M62p2xAtWailg9
 
