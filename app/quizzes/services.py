@@ -89,3 +89,32 @@ def save_user_answers(user_id, answers_dict):
                 "INSERT INTO user_answers (user_id, question_id, given_answer, is_correct) VALUES (%s, %s, %s, %s) RETURNING id",
                 (user_id, int(question_id), user_answer, is_correct)
             )
+
+def get_user_rank(test_id, user_id):
+    """Возвращает место пользователя по конкретному тесту (лучшая попытка)."""
+    query = """
+        WITH best_scores AS (
+            SELECT user_id, MAX(score) as best_score
+            FROM user_progress
+            WHERE test_id = %s AND status = 'completed' AND score IS NOT NULL
+            GROUP BY user_id
+        ),
+        ranked AS (
+            SELECT user_id, best_score,
+                   RANK() OVER (ORDER BY best_score DESC) as rank
+            FROM best_scores
+        )
+        SELECT rank FROM ranked WHERE user_id = %s
+    """
+    row = fetch_one(query, (test_id, user_id))
+    return row['rank'] if row else None
+
+def get_total_participants(test_id):
+    """Количество уникальных участников, завершивших тест."""
+    query = """
+        SELECT COUNT(DISTINCT user_id) as cnt
+        FROM user_progress
+        WHERE test_id = %s AND status = 'completed' AND score IS NOT NULL
+    """
+    row = fetch_one(query, (test_id,))
+    return row['cnt'] if row else 0

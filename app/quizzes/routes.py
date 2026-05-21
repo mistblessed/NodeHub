@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, abort
 from flask_login import login_required, current_user
 from app.quizzes.services import (
     get_test_by_id, get_questions_for_test, calculate_score, 
-    save_test_result, save_user_answers
+    save_test_result, save_user_answers, get_user_rank, get_total_participants
 )
 
 quizzes_bp = Blueprint('quizzes', __name__)
@@ -40,8 +40,12 @@ def submit_test(test_id):
     save_test_result(current_user.id, test_id, percent)
     save_user_answers(current_user.id, answers)
 
-    return render_template('quizzes/result.html', 
-                           test=test, correct=correct, total=total, percent=percent, page_title=f'{test.title} — Результат')
+    rank = get_user_rank(test_id, current_user.id)
+    total_participants = get_total_participants(test_id)
+
+    return render_template('quizzes/result.html',
+                           test=test, correct=correct, total=total, percent=percent,
+                           rank=rank, total_participants=total_participants, page_title=f'{test.title} — Результат')
 
 # Для JSON
 import json
