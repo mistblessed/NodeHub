@@ -84,6 +84,10 @@ def create_app():
                 flash('Сообщение отправлено! Мы свяжемся с вами.', 'success')
                 return redirect(url_for('contacts'))
         return render_template('contacts.html', page_title='Контакты')
+    
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html', page_title='Страница не найдена'), 404
 
     # SEO-файлы
     @app.route('/robots.txt')
