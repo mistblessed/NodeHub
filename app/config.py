@@ -11,6 +11,8 @@ class Config:
     DB_USER = os.environ.get('DB_USER') or 'postgres'
     DB_PASSWORD = os.environ.get('DB_PASSWORD') or 'admin'
     WTF_CSRF_ENABLED = os.environ.get('WTF_CSRF_ENABLED', 'True') == 'True'
+    DB_MAX_RETRIES = 5          # максимальное число попыток подключения
+    DB_RETRY_DELAY = 0.5        # начальная задержка в секундах (экспоненциально растёт)
 
     @property
     def DB_DSN(self):
